@@ -1,16 +1,17 @@
 import pygame
 from menu import *
-
-
+from players import X
+import time
 class Game():
     def __init__(self):
         pygame.init()
         self.running, self.playing = True, False
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
         self.DISPLAY_W, self.DISPLAY_H = 800, 600
-        self.tictactoeImg = pygame.image.load('assets/tictactoe.png')
+        self.FIRST_SCREEN = 0
         self.TTTX, self.TTTY = 700, 500
-        self.resizedTictactoe = pygame.transform.scale(self.tictactoeImg, (500,500))
+        self.tictactoeImg = pygame.image.load('assets/tictactoe.png')
+        self.tictactoeImg = pygame.transform.scale(self.tictactoeImg, (500,500))
         self.display = pygame.Surface((self.DISPLAY_W,self.DISPLAY_H))
         self.window = pygame.display.set_mode(((self.DISPLAY_W,self.DISPLAY_H)))
         self.font_name = 'Pixeboy.ttf'
@@ -20,6 +21,32 @@ class Game():
         self.options = OptionsMenu(self)
         self.credits = CreditsMenu(self)
         self.curr_menu = self.main_menu
+        self.winning_matrix = [[ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ]]
+
+    def selected_square(self):
+        mouse_click = pygame.mouse.get_pressed()
+        mposx, mposy = pygame.mouse.get_pos()
+        player = X()
+
+        if mouse_click[0] == True:
+            if mposx in range(156,328) and mposy in range(52, 212):
+                self.tictactoeImg.blit(player.Img(), (40,40))
+            if mposx in range(337,468) and mposy in range(52, 212):
+                self.tictactoeImg.blit(player.Img(), (170,40))
+            if mposx in range(475,647) and mposy in range(52, 212):
+                self.tictactoeImg.blit(player.Img(), (280,40))
+            if mposx in range(156,328) and mposy in range(225, 380):
+                self.tictactoeImg.blit(player.Img(), (40,40))
+            if mposx in range(337,468) and mposy in range(225, 380):
+                self.tictactoeImg.blit(player.Img(), (40,40))
+            if mposx in range(475,647) and mposy in range(225, 380):
+                self.tictactoeImg.blit(player.Img(), (40,40))
+            if mposx in range(156,328) and mposy in range(391, 552):
+                self.tictactoeImg.blit(player.Img(), (40,40))
+            if mposx in range(337,468) and mposy in range(391, 552):
+                self.tictactoeImg.blit(player.Img(), (40,40))
+            if mposx in range(475,647) and mposy in range(391, 552):
+                self.tictactoeImg.blit(player.Img(), (40,40))
 
     def game_loop(self):
         while self.playing:
@@ -27,14 +54,18 @@ class Game():
             if self.START_KEY:
                 self.playing= False
             self.display.fill(self.WHITE)
-            #self.draw_text('Thanks for Playing', 60, self.DISPLAY_W/2, self.DISPLAY_H/2)
             self.window.blit(self.display, (0,0))
             self.tictactoe()
+            mouse_pos = pygame.mouse.get_pos()
+            print (mouse_pos)
+            if self.FIRST_SCREEN > 50:
+                self.selected_square()
+            self.FIRST_SCREEN += 1
             pygame.display.update()
             self.reset_keys()
 
     def tictactoe(self):
-        self.window.blit(self.resizedTictactoe, (self.DISPLAY_W/2 - self.TTTX/2 + 100, self.DISPLAY_H/2 - self.TTTY/2))
+        self.window.blit(self.tictactoeImg, (self.DISPLAY_W/2 - self.TTTX/2 + 100, self.DISPLAY_H/2 - self.TTTY/2))
 
     def check_events(self):
         for event in pygame.event.get():
