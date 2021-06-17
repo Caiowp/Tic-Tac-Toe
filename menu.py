@@ -1,8 +1,10 @@
 import pygame
+from players import X, O
 
 class Menu():
     def __init__(self, game):
         self.game = game
+        #setting the middle of screen position
         self.mid_w, self.mid_h = self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2
         self.run_display = True
         self.cursor_rect = pygame.Rect(0, 0, 20, 20)
@@ -71,11 +73,14 @@ class MainMenu(Menu):
         #print (mouse_click[0])
         if mouse_click[0] == True:
             if mouse_pos[0] in range(311,491) and mouse_pos[1] in range(341, 362):
-                self.run_display, self.game.playing= False, True
+                self.game.curr_menu = self.game.selection
+                #self.run_display = False    initializing game command
+                #self.game.playing = True
                 print (self.run_display)
         if self.game.START_KEY:
             if self.state == 'Start':
-                self.game.playing = True
+                self.game.curr_menu = self.game.selection
+                #self.game.playing = True
             elif self.state == 'Options':
                 self.game.curr_menu = self.game.options
             elif self.state == 'Credits':
@@ -116,6 +121,24 @@ class OptionsMenu(Menu):
         elif self.game.START_KEY:
             # TO-DO: Create a Volume Menu and a Controls Menu
             pass
+
+class SelectionMenu(Menu):
+    def __init__(self, game):
+        Menu.__init__(self, game)
+
+    def display_menu(self):
+        self.run_display = True
+        while self.run_display:
+            self.game.check_events()
+            self.game.display.fill(self.game.WHITE)
+            player1 = X()
+            player2 = O()
+            self.game.window.blit(self.game.display, (0, 0))
+            self.game.window.blit(player1.Img(), (self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2))
+            self.game.window.blit(player2.Img(), (self.game.DISPLAY_W / 2 - 140, self.game.DISPLAY_H / 2))
+            pygame.display.update()
+            self.game.reset_keys()
+
 
 class CreditsMenu(Menu):
     def __init__(self, game):

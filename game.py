@@ -20,34 +20,38 @@ class Game():
         self.main_menu = MainMenu(self)
         self.options = OptionsMenu(self)
         self.credits = CreditsMenu(self)
+        self.selection = SelectionMenu(self)
         self.curr_menu = self.main_menu
         self.winning_matrix = [[ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ]]
+
 
     def selected_square(self):
         mouse_click = pygame.mouse.get_pressed()
         mposx, mposy = pygame.mouse.get_pos()
         player = X()
 
+        #Drawing player position inside the board screen
         if mouse_click[0] == True:
             if mposx in range(156,328) and mposy in range(52, 212):
                 self.tictactoeImg.blit(player.Img(), (40,40))
             if mposx in range(337,468) and mposy in range(52, 212):
                 self.tictactoeImg.blit(player.Img(), (170,40))
             if mposx in range(475,647) and mposy in range(52, 212):
-                self.tictactoeImg.blit(player.Img(), (280,40))
+                self.tictactoeImg.blit(player.Img(), (310,40))
             if mposx in range(156,328) and mposy in range(225, 380):
-                self.tictactoeImg.blit(player.Img(), (40,40))
+                self.tictactoeImg.blit(player.Img(), (40,190))
             if mposx in range(337,468) and mposy in range(225, 380):
-                self.tictactoeImg.blit(player.Img(), (40,40))
+                self.tictactoeImg.blit(player.Img(), (170,190))
             if mposx in range(475,647) and mposy in range(225, 380):
-                self.tictactoeImg.blit(player.Img(), (40,40))
+                self.tictactoeImg.blit(player.Img(), (310,190))
             if mposx in range(156,328) and mposy in range(391, 552):
-                self.tictactoeImg.blit(player.Img(), (40,40))
+                self.tictactoeImg.blit(player.Img(), (40,350))
             if mposx in range(337,468) and mposy in range(391, 552):
-                self.tictactoeImg.blit(player.Img(), (40,40))
+                self.tictactoeImg.blit(player.Img(), (170,350))
             if mposx in range(475,647) and mposy in range(391, 552):
-                self.tictactoeImg.blit(player.Img(), (40,40))
+                self.tictactoeImg.blit(player.Img(), (310,350))
 
+    #Game event loop
     def game_loop(self):
         while self.playing:
             self.check_events()
@@ -55,18 +59,23 @@ class Game():
                 self.playing= False
             self.display.fill(self.WHITE)
             self.window.blit(self.display, (0,0))
+            #creating the playing board
             self.tictactoe()
+            #only for testing purpose
             mouse_pos = pygame.mouse.get_pos()
             print (mouse_pos)
+            #Wait to draw the first player choice
             if self.FIRST_SCREEN > 50:
                 self.selected_square()
             self.FIRST_SCREEN += 1
+            #update screen
             pygame.display.update()
             self.reset_keys()
 
     def tictactoe(self):
         self.window.blit(self.tictactoeImg, (self.DISPLAY_W/2 - self.TTTX/2 + 100, self.DISPLAY_H/2 - self.TTTY/2))
 
+    #check button pressed on menu screen
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -82,6 +91,7 @@ class Game():
                 if event.key == pygame.K_UP:
                     self.UP_KEY = True
 
+    #set button pressed back to false
     def reset_keys(self):
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
 
