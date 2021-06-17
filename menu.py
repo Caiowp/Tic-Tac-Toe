@@ -1,5 +1,6 @@
 import pygame
 from players import X, O
+import time
 
 class Menu():
     def __init__(self, game):
@@ -70,13 +71,13 @@ class MainMenu(Menu):
         mouse_pos = pygame.mouse.get_pos()
         print (mouse_pos)        # x0=311 x1=491 y0=362 y1=341
         mouse_click = pygame.mouse.get_pressed()
-        #print (mouse_click[0])
+        print (mouse_click[0])
         if mouse_click[0] == True:
             if mouse_pos[0] in range(311,491) and mouse_pos[1] in range(341, 362):
+                time.sleep(0.2)
                 self.game.curr_menu = self.game.selection
-                #self.run_display = False    initializing game command
+                #self.run_display = False
                 #self.game.playing = True
-                print (self.run_display)
         if self.game.START_KEY:
             if self.state == 'Start':
                 self.game.curr_menu = self.game.selection
@@ -131,13 +132,35 @@ class SelectionMenu(Menu):
         while self.run_display:
             self.game.check_events()
             self.game.display.fill(self.game.WHITE)
+            self.game.draw_text('Select your side:', 100, self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2 - 50, self.game.BLACK,)
+            self.game.window.blit(self.game.display, (0, 0))
             player1 = X()
             player2 = O()
-            self.game.window.blit(self.game.display, (0, 0))
             self.game.window.blit(player1.Img(), (self.game.DISPLAY_W / 2, self.game.DISPLAY_H / 2))
             self.game.window.blit(player2.Img(), (self.game.DISPLAY_W / 2 - 140, self.game.DISPLAY_H / 2))
             pygame.display.update()
             self.game.reset_keys()
+            self.game_call()
+
+    def game_call(self):
+        mouse_pos = pygame.mouse.get_pos()
+        print (mouse_pos)        # x0=311 x1=491 y0=362 y1=341
+        mouse_click = pygame.mouse.get_pressed()
+        #print (mouse_click[0])
+        if mouse_click[0] == True:
+            if mouse_pos[0] in range(275, 400) and mouse_pos[1] in range(304, 412):
+                self.game.player1 = O()
+                self.game.player2 = X()
+                print(self.game.player1)
+                self.run_display = False    #initializing game commands
+                self.game.playing = True
+
+            if mouse_pos[0] in range(417, 530) and mouse_pos[1] in range(304, 412):
+                self.game.player1 = X()
+                self.game.player2 = O()
+                print(self.game.player1)
+                self.run_display = False    #initializing game commands
+                self.game.playing = True
 
 
 class CreditsMenu(Menu):

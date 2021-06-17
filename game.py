@@ -15,6 +15,8 @@ class Game():
         self.display = pygame.Surface((self.DISPLAY_W,self.DISPLAY_H))
         self.window = pygame.display.set_mode(((self.DISPLAY_W,self.DISPLAY_H)))
         self.font_name = 'Pixeboy.ttf'
+        self.player1 = X()
+        self.player2 = O()
         #self.font_name = pygame.font.get_default_font()
         self.BLACK, self.WHITE = (0, 0, 0), (255, 255, 255)
         self.main_menu = MainMenu(self)
@@ -28,28 +30,27 @@ class Game():
     def selected_square(self):
         mouse_click = pygame.mouse.get_pressed()
         mposx, mposy = pygame.mouse.get_pos()
-        player = X()
 
         #Drawing player position inside the board screen
         if mouse_click[0] == True:
             if mposx in range(156,328) and mposy in range(52, 212):
-                self.tictactoeImg.blit(player.Img(), (40,40))
+                self.tictactoeImg.blit(self.player1.Img(), (40,40))
             if mposx in range(337,468) and mposy in range(52, 212):
-                self.tictactoeImg.blit(player.Img(), (170,40))
+                self.tictactoeImg.blit(self.player1.Img(), (170,40))
             if mposx in range(475,647) and mposy in range(52, 212):
-                self.tictactoeImg.blit(player.Img(), (310,40))
+                self.tictactoeImg.blit(self.player1.Img(), (310,40))
             if mposx in range(156,328) and mposy in range(225, 380):
-                self.tictactoeImg.blit(player.Img(), (40,190))
+                self.tictactoeImg.blit(self.player1.Img(), (40,190))
             if mposx in range(337,468) and mposy in range(225, 380):
-                self.tictactoeImg.blit(player.Img(), (170,190))
+                self.tictactoeImg.blit(self.player1.Img(), (170,190))
             if mposx in range(475,647) and mposy in range(225, 380):
-                self.tictactoeImg.blit(player.Img(), (310,190))
+                self.tictactoeImg.blit(self.player1.Img(), (310,190))
             if mposx in range(156,328) and mposy in range(391, 552):
-                self.tictactoeImg.blit(player.Img(), (40,350))
+                self.tictactoeImg.blit(self.player1.Img(), (40,350))
             if mposx in range(337,468) and mposy in range(391, 552):
-                self.tictactoeImg.blit(player.Img(), (170,350))
+                self.tictactoeImg.blit(self.player1.Img(), (170,350))
             if mposx in range(475,647) and mposy in range(391, 552):
-                self.tictactoeImg.blit(player.Img(), (310,350))
+                self.tictactoeImg.blit(self.player1.Img(), (310,350))
 
     #Game event loop
     def game_loop(self):
@@ -95,9 +96,9 @@ class Game():
     def reset_keys(self):
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
 
-    def draw_text(self, text, size, x, y ):
+    def draw_text(self, text, size, x, y, color = ( 255, 255, 255)):
         font = pygame.font.Font(self.font_name,size)
-        text_surface = font.render(text, True, self.WHITE)
+        text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
         text_rect.center = (x,y)
         self.display.blit(text_surface,text_rect)
