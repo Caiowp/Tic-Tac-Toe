@@ -41,6 +41,7 @@ class Board():
              for j in range(0,3):
                  if board[i][j] == " ":
                      plays.append([i, j])
+        print (plays)
         return plays
 
     def play(self, *board, pos, player):
@@ -82,17 +83,26 @@ class Board():
             return best
 
     def bestAction(self, *board, player): #returns best action
+        board = deepcopy([*board])
         plays = self.possiblePlays(*board)
         print(board)
+        #print(player)
         best = float('-inf')
+        if player == 'O':
+            player = 'X'
+        else:
+            player = 'O'
+
         for p in plays:
             result = self.play(*board, pos=p, player=player)
-            if player == 'X':
-                value = self.minimax(*result, player=player, me=player)
-            else:
-                value = self.minimax(*result, player = 'O', me=player)
+            value = self.minimax(*result, player = player, me=player)
             if value > best:
                 best = value
                 bestAct = p
-                print(p)
         return bestAct
+
+b = Board()
+
+pp = b.bestAction(["O","X","O"],[" ","X", " "],[" "," "," "], player = "O")
+
+print (pp)
