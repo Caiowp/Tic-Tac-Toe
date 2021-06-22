@@ -2,13 +2,14 @@ import pygame
 from menu import *
 from players import X
 import time
+from board import Board
+
 class Game():
     def __init__(self):
         pygame.init()
         self.running, self.playing = True, False
         self.UP_KEY, self.DOWN_KEY, self.START_KEY, self.BACK_KEY = False, False, False, False
         self.DISPLAY_W, self.DISPLAY_H = 800, 600
-        self.FIRST_SCREEN = 0
         self.TTTX, self.TTTY = 700, 500
         self.tictactoeImg = pygame.image.load('assets/tictactoe.png')
         self.tictactoeImg = pygame.transform.scale(self.tictactoeImg, (500,500))
@@ -24,33 +25,98 @@ class Game():
         self.credits = CreditsMenu(self)
         self.selection = SelectionMenu(self)
         self.curr_menu = self.main_menu
-        self.winning_matrix = [[ 0, 0, 0 ], [ 0, 0, 0 ], [ 0, 0, 0 ]]
+        self.matrix = [[" "," "," "], [" "," "," "], [" "," "," "]]
 
+    def draw_opponent(self, pos):
+        if pos == [0, 0]:
+            self.tictactoeImg.blit(self.player2.Img(), (40,40))
+        if pos == [0, 1]:
+            self.tictactoeImg.blit(self.player2.Img(), (170,40))
+        if pos == [0, 2]:
+            self.tictactoeImg.blit(self.player2.Img(), (310,40))
+        if pos == [1, 0]:
+            self.tictactoeImg.blit(self.player2.Img(), (40,190))
+        if pos == [1, 1]:
+            self.tictactoeImg.blit(self.player2.Img(), (170,190))
+        if pos == [1, 2]:
+            self.tictactoeImg.blit(self.player2.Img(), (310,190))
+        if pos == [2, 0]:
+            self.tictactoeImg.blit(self.player2.Img(), (40,350))
+        if pos == [2, 1]:
+            self.tictactoeImg.blit(self.player2.Img(), (170,350))
+        if pos == [2, 2]:
+            self.tictactoeImg.blit(self.player2.Img(), (310,350))
 
     def selected_square(self):
         mouse_click = pygame.mouse.get_pressed()
         mposx, mposy = pygame.mouse.get_pos()
+        b = Board()
 
         #Drawing player position inside the board screen
         if mouse_click[0] == True:
             if mposx in range(156,328) and mposy in range(52, 212):
+                self.matrix = b.play(*self.matrix, pos = [0,0], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (40,40))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(337,468) and mposy in range(52, 212):
+                self.matrix = b.play(*self.matrix, pos = [0,1], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (170,40))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(475,647) and mposy in range(52, 212):
+                self.matrix = b.play(*self.matrix, pos = [0,2], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (310,40))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(156,328) and mposy in range(225, 380):
+                self.matrix = b.play(*self.matrix, pos = [1,0], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (40,190))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(337,468) and mposy in range(225, 380):
+                self.matrix = b.play(*self.matrix, pos = [1,1], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (170,190))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(475,647) and mposy in range(225, 380):
+                self.matrix = b.play(*self.matrix, pos = [1,2], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (310,190))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(156,328) and mposy in range(391, 552):
+                self.matrix = b.play(*self.matrix, pos = [2,0], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (40,350))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(337,468) and mposy in range(391, 552):
+                self.matrix = b.play(*self.matrix, pos = [2,1], player =  self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (170,350))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
             if mposx in range(475,647) and mposy in range(391, 552):
+                self.matrix = b.play(*self.matrix, pos = [2,2], player = self.player1.character)
                 self.tictactoeImg.blit(self.player1.Img(), (310,350))
+                time.sleep(0.2)
+                self.draw_opponent(b.bestAction(*self.matrix, player = self.player2.character))
+                time.sleep(0.2)
+                self.matrix = b.play(*self.matrix, pos = b.bestAction(*self.matrix, player = self.player2.character), player = self.player2.character)
 
     #Game event loop
     def game_loop(self):
@@ -64,11 +130,9 @@ class Game():
             self.tictactoe()
             #only for testing purpose
             mouse_pos = pygame.mouse.get_pos()
-            print (mouse_pos)
-            #Wait to draw the first player choice
-            if self.FIRST_SCREEN > 50:
-                self.selected_square()
-            self.FIRST_SCREEN += 1
+            # print (mouse_pos)
+
+            self.selected_square()
             #update screen
             pygame.display.update()
             self.reset_keys()

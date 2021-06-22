@@ -69,19 +69,17 @@ class MainMenu(Menu):
     def check_input(self):
         self.move_cursor()
         mouse_pos = pygame.mouse.get_pos()
-        print (mouse_pos)        # x0=311 x1=491 y0=362 y1=341
+        #print (mouse_pos)        # x0=311 x1=491 y0=362 y1=341
         mouse_click = pygame.mouse.get_pressed()
-        print (mouse_click[0])
+        #print (mouse_click[0])
         if mouse_click[0] == True:
             if mouse_pos[0] in range(311,491) and mouse_pos[1] in range(341, 362):
-                time.sleep(0.2)
                 self.game.curr_menu = self.game.selection
-                #self.run_display = False
-                #self.game.playing = True
+                self.run_display = False
+                time.sleep(0.2)
         if self.game.START_KEY:
             if self.state == 'Start':
                 self.game.curr_menu = self.game.selection
-                #self.game.playing = True
             elif self.state == 'Options':
                 self.game.curr_menu = self.game.options
             elif self.state == 'Credits':
@@ -144,7 +142,7 @@ class SelectionMenu(Menu):
 
     def game_call(self):
         mouse_pos = pygame.mouse.get_pos()
-        print (mouse_pos)        # x0=311 x1=491 y0=362 y1=341
+        # print (mouse_pos)        # x0=311 x1=491 y0=362 y1=341
         mouse_click = pygame.mouse.get_pressed()
         #print (mouse_click[0])
         if mouse_click[0] == True:
@@ -154,6 +152,7 @@ class SelectionMenu(Menu):
                 print(self.game.player1)
                 self.run_display = False    #initializing game commands
                 self.game.playing = True
+                time.sleep(0.2)
 
             if mouse_pos[0] in range(417, 530) and mouse_pos[1] in range(304, 412):
                 self.game.player1 = X()
@@ -161,6 +160,7 @@ class SelectionMenu(Menu):
                 print(self.game.player1)
                 self.run_display = False    #initializing game commands
                 self.game.playing = True
+                time.sleep(0.2)
 
 
 class CreditsMenu(Menu):
